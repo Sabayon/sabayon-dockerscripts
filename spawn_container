@@ -1,0 +1,94 @@
+#!/bin/bash
+. /sbin/sabayondocker-functions.sh
+
+SABAYON_DOCKER_OPTIONS=("$@")
+SABAYON_HOME="${SABAYON_HOME:-/sabayon/arm/}"
+SABAYON_DOCKER_IMAGE="${SABAYON_DOCKER_IMAGE:-sabayon/entropy-armhfp}"
+SABAYON_CPUS="${SABAYON_CPUS:-3}"
+SABAYON_MEMORY_RESERVATION="${SABAYON_MEMORY_RESERVATION:-10M}"
+SABAYON_MEMORY_SWAP="${SABAYON_MEMORY_SWAP:-110M}"
+SABAYON_MEMORY="${SABAYON_MEMORY:-100M}"
+SABAYON_COMMAND="${SABAYON_COMMAND:-/bin/bash}"
+
+echo
+echo "Setting up and running your container"
+echo "#######################################################################################"
+
+if [ -n "${SABAYON_DOCKER_IMAGE+1}" ]; then
+  echo "SABAYON_DOCKER_IMAGE: ${SABAYON_DOCKER_IMAGE}"
+else
+  echo "SABAYON_DOCKER_IMAGE is not defined"
+  exit 1
+fi
+
+if [ -n "${SABAYON_CPUS+1}" ]; then
+  echo "SABAYON_CPUS: ${SABAYON_CPUS}"
+else
+  echo "SABAYON_CPUS is not defined"
+  exit 1
+fi
+
+if [ -n "${SABAYON_MEMORY_RESERVATION+1}" ]; then
+  echo "SABAYON_MEMORY_RESERVATION: ${SABAYON_MEMORY_RESERVATION}"
+else
+  echo "SABAYON_MEMORY_RESERVATION is not defined"
+  exit 1
+fi
+
+if [ -n "${SABAYON_MEMORY_SWAP+1}" ]; then
+  echo "SABAYON_MEMORY_SWAP: ${SABAYON_MEMORY_SWAP}"
+else
+  echo "SABAYON_MEMORY_SWAP is not defined"
+  exit 1
+fi
+
+if [ -n "${SABAYON_MEMORY+1}" ]; then
+  echo "SABAYON_MEMORY: ${SABAYON_MEMORY}"
+else
+  echo "SABAYON_MEMORY is not defined"
+  exit 1
+fi
+
+
+if [ -n "${SABAYON_HOME+1}" ]; then
+  echo "SABAYON_HOME: ${SABAYON_HOME}"
+else
+  echo "SABAYON_HOME is not defined"
+  exit 1
+fi
+
+if [[ ${SABAYON_DOCKER_OPTIONS[@]} ]]; then
+  echo "SABAYON_DOCKER_OPTIONS: ${SABAYON_DOCKER_OPTIONS[@]}"
+else
+  echo "SABAYON_DOCKER_OPTIONS is not defined"
+  exit 1
+fi
+
+if docker_acquire_lock $SABAYON_DOCKER_IMAGE; then
+  echo "[-->]"
+  echo "docker run
+      -m $SABAYON_MEMORY --memory-swap $SABAYON_MEMORY_SWAP
+      --memory-reservation $SABAYON_MEMORY_RESERVATION
+      --cpuset-cpus=${SABAYON_CPUS}
+      ${SABAYON_DOCKER_OPTIONS[@]}
+      -t -i $SABAYON_DOCKER_IMAGE $SABAYON_COMMAND"
+
+  docker run \
+    -m $SABAYON_MEMORY --memory-swap $SABAYON_MEMORY_SWAP \
+    --memory-reservation $SABAYON_MEMORY_RESERVATION \
+    --cpuset-cpus="${SABAYON_CPUS}"\
+    ${SABAYON_DOCKER_OPTIONS[@]} \
+    -t -i $SABAYON_DOCKER_IMAGE $SABAYON_COMMAND
+
+  rc=$?
+
+  echo "#######################################################################################"
+
+  if [[ $rc != 0 ]]; then
+    docker_notice_fail $SABAYON_DOCKER_IMAGE
+    exit $rc;
+  else
+    docker_notice $SABAYON_DOCKER_IMAGE
+    exit 0
+  fi
+fi

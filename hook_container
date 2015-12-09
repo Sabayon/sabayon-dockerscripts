@@ -1,0 +1,24 @@
+#!/bin/bash
+
+. /sbin/sabayondocker-functions.sh
+
+if [ -n "${1+1}" ]; then
+  echo "Hooking in $1"
+else
+  echo "No CID passed - specify a container dushbag"
+  exit 1
+fi
+
+docker exec -t -i $1 /bin/bash
+
+rc=$?
+
+echo "#######################################################################################"
+
+if [[ $rc != 0 ]]; then
+  docker_notice_fail $SABAYON_DOCKER_IMAGE
+  exit $rc;
+else
+  docker_notice $SABAYON_DOCKER_IMAGE
+  exit 0
+fi

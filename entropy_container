@@ -1,0 +1,48 @@
+#!/bin/bash
+
+. /sbin/sabayondocker-functions.sh
+
+SABAYON_DOCKER_IMAGE="${SABAYON_DOCKER_IMAGE:-sabayon/entropy-armhfp}"
+
+safety_check $SABAYON_DOCKER_IMAGE
+
+export SABAYON_DOCKER_IMAGE
+
+# Running default
+SABAYON_HOME="${SABAYON_HOME:-/sabayon/arm/}"
+SABAYON_CPUS="${SABAYON_CPUS:-5-7}"
+SABAYON_MEMORY_RESERVATION="${SABAYON_MEMORY_RESERVATION:-300M}"
+SABAYON_MEMORY_SWAP="${SABAYON_MEMORY_SWAP:-710M}"
+SABAYON_MEMORY="${SABAYON_MEMORY:-710M}"
+SABAYON_COMMAND="${SABAYON_COMMAND:-/bin/bash}"
+
+SABAYON_DOCKER_OPTIONS=(
+  "-v $SABAYON_HOME/certs/:/root/.ssh/"
+	"-v $SABAYON_HOME/distfiles:/usr/portage/distfiles"
+	"-v $SABAYON_HOME/confs/entropy_arm.conf:/etc/entropy/repositories.conf.d/entropy_arm.conf"
+	"-v $SABAYON_HOME/confs/entropy_server_conf_arm:/etc/entropy/server.conf"
+	"-v $SABAYON_HOME/confs/distcc_hosts:/etc/distcc/hosts"
+	"-v $SABAYON_HOME/artifacts:/usr/portage/packages"
+	"-e FEATURES -e DISTCC_SSH -e DISTCC_HOSTS -e MAKEOPTS -e SSH_AUTH_SOCK"
+)
+
+export SABAYON_CPUS
+export SABAYON_MEMORY_RESERVATION
+export SABAYON_MEMORY_SWAP
+export SABAYON_MEMORY
+export SABAYON_HOME
+export SABAYON_DOCKER_OPTIONS
+export SABAYON_COMMAND
+
+
+echo
+echo "----> Printing image history, hang tight"
+echo
+
+echo "*****************************************"
+docker history $SABAYON_DOCKER_IMAGE || exit 0
+echo "*****************************************"
+
+
+
+spawn_container ${SABAYON_DOCKER_OPTIONS[@]}

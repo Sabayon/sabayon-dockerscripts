@@ -1,0 +1,2 @@
+docker export $1 | docker import - $2
+
