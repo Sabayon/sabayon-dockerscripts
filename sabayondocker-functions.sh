@@ -29,7 +29,12 @@ docker_notice() {
 
   cowsay " Don't forget to commit your changes to the docker image, or your changes will be lost."
   docker_helper $IMAGE $CID
-  confirm "[*] Do you want to commit it? [y/N]" && docker commit ${CID} ${IMAGE}
+  if [[ $(docker inspect --format='{{.Config.Image}}' ${CID}) = ${IMAGE} ]]; then
+    confirm "[*] Do you want to commit it? [y/N]" && docker commit ${CID} ${IMAGE}
+  else
+    echo "[!] I'm sorry, this shouldn't happen. But it seems that someone manually created and committed a container"
+    exit 1
+  fi
 }
 
 docker_notice_fail() {
@@ -62,6 +67,9 @@ docker_acquire_lock() {
     cowsay "DON'T!! It seems that someone is committing a container. ${RANDOM_REASON} [possible is ${beingcommited}]"
   	return 1
   else
+    if ps aux | grep -q "[d]ocker commit"; then
+      echo "[!] No one seems touching your image, but still someone is committing something"
+    fi
   	return 0
   fi
 }
