@@ -61,10 +61,10 @@ docker_helper() {
 
 docker_acquire_lock() {
   local IMAGE=${1:-/}
-  if ps aux | grep -q "[d]ocker commit" | grep -q $IMAGE; then
-    local beingcommited=$(docker ps -a | grep sabayon | awk '{ print $1 }')
+  if ps aux | grep "[d]ocker commit" | grep -q $IMAGE; then
     local RANDOM_REASON=${WORLD_ENDING[$RANDOM % ${#WORLD_ENDING[@]}]}
-    cowsay "DON'T!! It seems that someone is committing a container. ${RANDOM_REASON} [possible is ${beingcommited}]"
+    cowsay "DON'T!! It seems that someone is committing a container. ${RANDOM_REASON}"
+    ps aux | grep "[d]ocker commit" | grep $IMAGE
   	return 1
   else
     if ps aux | grep -q "[d]ocker commit"; then
