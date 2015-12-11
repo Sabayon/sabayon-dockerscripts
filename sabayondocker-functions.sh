@@ -30,7 +30,7 @@ docker_notice() {
   cowsay " Don't forget to commit your changes to the docker image, or your changes will be lost."
   docker_helper $IMAGE $CID
   if [[ $(docker inspect --format='{{.Config.Image}}' ${CID}) = ${IMAGE} ]]; then
-    confirm "[*] Do you want to commit it? [y/N]" && docker commit ${CID} ${IMAGE}
+    confirm "[*] Do you want to commit it? [y/N]" && docker commit ${CID} ${IMAGE} || confirm "[*] Do you want to remove it? [y/N]" && docker rm ${CID}
   else
     echo "[!] I'm sorry, this shouldn't happen. But it seems that someone manually created and committed a container"
     exit 1
