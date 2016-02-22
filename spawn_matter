@@ -19,6 +19,11 @@ git stash
 git pull
 popd
 
+pushd /particles
+git stash
+git pull
+popd
+
 emerge-webrsync
 eix-sync
 
