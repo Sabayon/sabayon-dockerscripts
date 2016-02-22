@@ -14,6 +14,7 @@ cat >$matterscript <<EOF
 #!/bin/bash
 set -e
 
+
 pushd /etc/portage
 git stash
 git pull
@@ -24,10 +25,12 @@ git stash
 git pull
 popd
 
+particles=\$(find "/particles/weekly" -name "*.particle" | sort)
+
 emerge-webrsync
 eix-sync
 
-/usr/sbin/matter --sync-best-effort  /particles/weekly/*
+/usr/sbin/matter --sync-best-effort  \${particles}
 EOF
 chmod +x $matterscript
 
