@@ -7,7 +7,7 @@ SABAYON_CPUS="${SABAYON_CPUS:-5-7}"
 SABAYON_MEMORY_RESERVATION="${SABAYON_MEMORY_RESERVATION:-300M}"
 SABAYON_MEMORY_SWAP="${SABAYON_MEMORY_SWAP:-710M}"
 SABAYON_MEMORY="${SABAYON_MEMORY:-710M}"
-SABAYON_COMMAND="${SABAYON_COMMAND:-/usr/sbin/matter /particles/weekly/00-release-process.particle /particles/weekly/01-kernels.particle /particles/weekly/app-accessibility.particle /particles/weekly/app-admin.p
+SABAYON_COMMAND="${SABAYON_COMMAND:-/usr/sbin/matter --sync-best-effort /particles/weekly/00-release-process.particle /particles/weekly/01-kernels.particle /particles/weekly/app-accessibility.particle /particles/weekly/app-admin.p
 article /particles/weekly/app-antivirus.particle /particles/weekly/app-arch.particle /particles/weekly/app-backup.particle /particles/weekly/app-benchmarks.particle /particles/weekly/app-cdr.particle /particles/
 weekly/app-crypt.particle /particles/weekly/app-crypt.stable.particle /particles/weekly/app-dicts.particle /particles/weekly/app-doc.particle /particles/weekly/app-editors.particle /particles/weekly/app-emacs.pa
 rticle /particles/weekly/app-emulation.particle /particles/weekly/app-forensics.particle /particles/weekly/app-i18n.particle /particles/weekly/app-laptop.particle /particles/weekly/app-leechcraft.particle /parti
@@ -36,7 +36,7 @@ process.particle /particles/weekly/virtual-cron.injected.particle /particles/wee
 ly/www-apache.particle /particles/weekly/www-apps.new.particle /particles/weekly/www-apps.particle /particles/weekly/www-client.particle /particles/weekly/www-misc.particle /particles/weekly/www-plugins.particle
  /particles/weekly/www-servers.particle /particles/weekly/x11-apps.particle /particles/weekly/x11-base.particle /particles/weekly/x11-drivers.particle /particles/weekly/x11-libs.particle /particles/weekly/x11-li
 bs.stable.particle /particles/weekly/x11-misc.particle /particles/weekly/x11-plugins.particle /particles/weekly/x11-proto.particle /particles/weekly/x11-terms.particle /particles/weekly/x11-themes.particle /part
-icles/weekly/x11-wm.particle /particles/weekly/xfce-base.particle /particles/weekly/xfce-extra.particle /particles/weekly/zzz-preserved-rebuild.particle --sync-best-effort}"
+icles/weekly/x11-wm.particle /particles/weekly/xfce-base.particle /particles/weekly/xfce-extra.particle /particles/weekly/zzz-preserved-rebuild.particle}"
 
 SABAYON_DOCKER_OPTIONS=(
   "-v $SABAYON_HOME/certs/:/root/.ssh/"
