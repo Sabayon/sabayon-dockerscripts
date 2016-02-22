@@ -7,39 +7,35 @@ SABAYON_CPUS="${SABAYON_CPUS:-5-7}"
 SABAYON_MEMORY_RESERVATION="${SABAYON_MEMORY_RESERVATION:-300M}"
 SABAYON_MEMORY_SWAP="${SABAYON_MEMORY_SWAP:-710M}"
 SABAYON_MEMORY="${SABAYON_MEMORY:-710M}"
-SABAYON_COMMAND="${SABAYON_COMMAND:-/usr/sbin/matter --sync-best-effort /particles/weekly/00-release-process.particle /particles/weekly/01-kernels.particle /particles/weekly/app-accessibility.particle /particles/weekly/app-admin.p
-article /particles/weekly/app-antivirus.particle /particles/weekly/app-arch.particle /particles/weekly/app-backup.particle /particles/weekly/app-benchmarks.particle /particles/weekly/app-cdr.particle /particles/
-weekly/app-crypt.particle /particles/weekly/app-crypt.stable.particle /particles/weekly/app-dicts.particle /particles/weekly/app-doc.particle /particles/weekly/app-editors.particle /particles/weekly/app-emacs.pa
-rticle /particles/weekly/app-emulation.particle /particles/weekly/app-forensics.particle /particles/weekly/app-i18n.particle /particles/weekly/app-laptop.particle /particles/weekly/app-leechcraft.particle /parti
-cles/weekly/app-misc.particle /particles/weekly/app-mobilephone.particle /particles/weekly/app-officeext.particle /particles/weekly/app-office.particle /particles/weekly/app-pda.particle /particles/weekly/app-po
-rtage.particle /particles/weekly/app-shells.particle /particles/weekly/app-text.particle /particles/weekly/app-vim.particle /particles/weekly/app-xemacs.particle /particles/weekly/dev-ada.particle /particles/wee
-kly/dev-cpp.particle /particles/weekly/dev-cpp.stable.particle /particles/weekly/dev-db.injected.particle /particles/weekly/dev-db.particle /particles/weekly/dev-dotnet.particle /particles/weekly/dev-embedded.pa
-rticle /particles/weekly/dev-games.particle /particles/weekly/dev-games.stable.particle /particles/weekly/dev-haskell.particle /particles/weekly/dev-java.particle /particles/weekly/dev-lang.particle /particles/w
-eekly/dev-lang.stable.particle /particles/weekly/dev-libs.particle /particles/weekly/dev-lisp.particle /particles/weekly/dev-lua.particle /particles/weekly/dev-ml.particle /particles/weekly/dev-perl.particle /pa
-rticles/weekly/dev-php.particle /particles/weekly/dev-python.particle /particles/weekly/dev-qt.particle /particles/weekly/dev-ruby.particle /particles/weekly/dev-scheme.particle /particles/weekly/dev-tcltk.parti
-cle /particles/weekly/dev-texlive.particle /particles/weekly/dev-tex.particle /particles/weekly/dev-util.particle /particles/weekly/dev-vcs.particle /particles/weekly/games.particle /particles/weekly/gnome-base.
-particle /particles/weekly/gnome-extra.particle /particles/weekly/java-virtuals.particle /particles/weekly/kde-apps.particle /particles/weekly/kde-base.particle /particles/weekly/kde-frameworks.particle /particl
-es/weekly/kde-misc.particle /particles/weekly/kde-plasma.particle /particles/weekly/lxde-base.particle /particles/weekly/lxqt-base.particle /particles/weekly/mail-client.particle /particles/weekly/mail-filter.pa
-rticle /particles/weekly/mail-mta.particle /particles/weekly/mate-base.particle /particles/weekly/mate-extra.particle /particles/weekly/media-fonts.particle /particles/weekly/media-gfx.particle /particles/weekly
-/media-libs.particle /particles/weekly/media-libs.stable.particle /particles/weekly/media-plugins.particle /particles/weekly/media-radio.particle /particles/weekly/media-sound.particle /particles/weekly/media-tv
-.particle /particles/weekly/media-video.particle /particles/weekly/net-analyzer.particle /particles/weekly/net-dialup.particle /particles/weekly/net-dns.particle /particles/weekly/net-firewall.particle /particle
-s/weekly/net-fs.particle /particles/weekly/net-ftp.particle /particles/weekly/net-im.particle /particles/weekly/net-irc.particle /particles/weekly/net-libs.particle /particles/weekly/net-mail.particle /particles
-/weekly/net-misc.particle /particles/weekly/net-nds.particle /particles/weekly/net-nds.stable.particle /particles/weekly/net-news.particle /particles/weekly/net-nntp.particle /particles/weekly/net-p2p.particle /
-particles/weekly/net-print.particle /particles/weekly/net-proxy.particle /particles/weekly/net-voip.particle /particles/weekly/net-wireless.particle /particles/weekly/net-wireless.stable.particle /particles/week
-ly/net-zope.particle /particles/weekly/perl-core.stable.particle /particles/weekly/sci-astronomy.particle /particles/weekly/sci-biology.particle /particles/weekly/sci-calculators.particle /particles/weekly/sci-c
-hemistry.particle /particles/weekly/sci-electronics.particle /particles/weekly/sci-geosciences.particle /particles/weekly/sci-libs.particle /particles/weekly/sci-libs.stable.particle /particles/weekly/sci-mathem
-atics.particle /particles/weekly/sci-misc.particle /particles/weekly/sci-physics.particle /particles/weekly/sci-visualization.particle /particles/weekly/sys-apps.particle /particles/weekly/sys-apps.stable.partic
-le /particles/weekly/sys-auth.stable.particle /particles/weekly/sys-block.particle /particles/weekly/sys-block.stable.particle /particles/weekly/sys-boot.particle /particles/weekly/sys-boot.stable.particle /part
-icles/weekly/sys-cluster.particle /particles/weekly/sys-devel.particle /particles/weekly/sys-devel.stable.particle /particles/weekly/sys-fs.particle /particles/weekly/sys-fs.stable.particle /particles/weekly/sys
--kernel.particle /particles/weekly/sys-libs.libselinux.injected.particle /particles/weekly/sys-libs.particle /particles/weekly/sys-libs.stable.particle /particles/weekly/sys-power.particle /particles/weekly/sys-
-process.particle /particles/weekly/virtual-cron.injected.particle /particles/weekly/virtual-mta.injected.particle /particles/weekly/virtual-perl.particle /particles/weekly/virtual.stable.particle /particles/week
-ly/www-apache.particle /particles/weekly/www-apps.new.particle /particles/weekly/www-apps.particle /particles/weekly/www-client.particle /particles/weekly/www-misc.particle /particles/weekly/www-plugins.particle
- /particles/weekly/www-servers.particle /particles/weekly/x11-apps.particle /particles/weekly/x11-base.particle /particles/weekly/x11-drivers.particle /particles/weekly/x11-libs.particle /particles/weekly/x11-li
-bs.stable.particle /particles/weekly/x11-misc.particle /particles/weekly/x11-plugins.particle /particles/weekly/x11-proto.particle /particles/weekly/x11-terms.particle /particles/weekly/x11-themes.particle /part
-icles/weekly/x11-wm.particle /particles/weekly/xfce-base.particle /particles/weekly/xfce-extra.particle /particles/weekly/zzz-preserved-rebuild.particle}"
+SABAYON_COMMAND="${SABAYON_COMMAND:-/matterscript.sh}"
+
+matterscript=$(mktemp)
+cat >$matterscript <<EOF
+#!/bin/bash
+set -e
+
+pushd /etc/portage
+git stash
+git pull
+popd
+
+emerge-webrsync
+eix-sync
+
+/usr/sbin/matter --sync-best-effort  /particles/weekly/*
+EOF
+chmod +x $matterscript
+
+# deletes the temp directory
+function cleanup {
+  rm -rf "$matterscript"
+}
+trap cleanup EXIT
+
 
 SABAYON_DOCKER_OPTIONS=(
   "-v $SABAYON_HOME/certs/:/root/.ssh/"
+        "-v $matterscript:/matterscript.sh"
 	"-v $SABAYON_HOME/distfiles:/usr/portage/distfiles"
 	"-v $SABAYON_HOME/confs/entropy_arm.conf:/etc/entropy/repositories.conf.d/entropy_arm.conf"
         "-v $SABAYON_HOME/confs/entropysrv_sabayon-limbo:/etc/entropy/repositories.conf.d/entropysrv_sabayon-limbo"
