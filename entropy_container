@@ -24,6 +24,7 @@ SABAYON_DOCKER_OPTIONS=(
         "-v $SABAYON_HOME/confs/entropysrv_sabayon-hell:/etc/entropy/repositories.conf.d/entropysrv_sabayon-hell"
         "-v $SABAYON_HOME/confs/entropysrv_sabayonlinux.org:/etc/entropy/repositories.conf.d/entropysrv_sabayonlinux.org"
 	"-v $SABAYON_HOME/confs/distcc_hosts:/etc/distcc/hosts"
+	"-v $SABAYON_HOME/keys/:/etc/entropy/gpg-keys/"
 	"-v $SABAYON_HOME/artifacts:/usr/portage/packages"
 	"-e FEATURES -e DISTCC_SSH -e DISTCC_HOSTS -e MAKEOPTS -e SSH_AUTH_SOCK"
 )
