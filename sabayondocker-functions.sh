@@ -23,6 +23,11 @@ WORLD_ENDING=(
   'GOOD FUCKING LORD. STOP PLEASE. STOP'
 )
 
+SABAYON_HOME="${SABAYON_HOME:-/sabayon/arm/}"
+
+[ -e ${SABAYON_HOME}/confs/env ] && . ${SABAYON_HOME}/confs/env
+
+
 docker_notice() {
   local IMAGE=$1
   local CID=$(docker ps -aq | xargs echo | cut -d ' ' -f 1)
