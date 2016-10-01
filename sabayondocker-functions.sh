@@ -30,6 +30,7 @@ SABAYON_MEMORY_SWAP="${SABAYON_MEMORY_SWAP:-710M}"
 SABAYON_MEMORY="${SABAYON_MEMORY:-710M}"
 SABAYON_COMMAND="${SABAYON_COMMAND:-/bin/bash}"
 SABAYON_DOCKER_IMAGE="${SABAYON_DOCKER_IMAGE:-sabayon/entropy-armhfp}"
+SABAYON_DOCKER_EXTRA_OPTS="${SABAYON_DOCKER_EXTRA_OPTS}"
 
 [ -e ${SABAYON_HOME}/confs/env ] && . ${SABAYON_HOME}/confs/env
 
@@ -118,7 +119,7 @@ safety_check() {
 
 docker_hook() {
   local CID=$1
-  if confirm "[*] Do you want to spawn a new shell on ${CID}? if i'm wrong, press N! [y/N]"; then
+  if confirmy "[*] Do you want to spawn a new shell on ${CID}? if i'm wrong, press N! [Y/n]"; then
     hook_container $CID
     exit $?
   else
@@ -146,6 +147,19 @@ confirm () {
             ;;
         *)
             false
+            ;;
+    esac
+}
+
+confirmy () {
+    # call with a prompt string or use a default
+    read -r -p "${1:-Are you sure? [Y/n]} " response
+    case $response in
+        [nN][oO]|[nN])
+            false
+            ;;
+        *)
+            true
             ;;
     esac
 }

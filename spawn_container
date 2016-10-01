@@ -9,6 +9,7 @@ SABAYON_MEMORY_RESERVATION="${SABAYON_MEMORY_RESERVATION:-10M}"
 SABAYON_MEMORY_SWAP="${SABAYON_MEMORY_SWAP:-110M}"
 SABAYON_MEMORY="${SABAYON_MEMORY:-100M}"
 SABAYON_COMMAND="${SABAYON_COMMAND:-/bin/bash}"
+SABAYON_DOCKER_EXTRA_OPTS="${SABAYON_DOCKER_EXTRA_OPTS}"
 
 echo
 echo "Setting up and running your container"
@@ -69,14 +70,14 @@ if docker_acquire_lock $SABAYON_DOCKER_IMAGE; then
   echo "docker run
       -m $SABAYON_MEMORY --memory-swap $SABAYON_MEMORY_SWAP
       --memory-reservation $SABAYON_MEMORY_RESERVATION
-      --cpuset-cpus=${SABAYON_CPUS}
+      --cpuset-cpus=${SABAYON_CPUS} $SABAYON_DOCKER_EXTRA_OPTS
       ${SABAYON_DOCKER_OPTIONS[@]}
       -t -i $SABAYON_DOCKER_IMAGE $SABAYON_COMMAND"
 
   docker run \
     -m $SABAYON_MEMORY --memory-swap $SABAYON_MEMORY_SWAP \
     --memory-reservation $SABAYON_MEMORY_RESERVATION \
-    --cpuset-cpus="${SABAYON_CPUS}"\
+    --cpuset-cpus="${SABAYON_CPUS}" $SABAYON_DOCKER_EXTRA_OPTS\
     ${SABAYON_DOCKER_OPTIONS[@]} \
     -t -i $SABAYON_DOCKER_IMAGE $SABAYON_COMMAND
 
