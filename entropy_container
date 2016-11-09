@@ -16,6 +16,7 @@ SABAYON_DOCKER_OPTIONS=(
 	"-v $SABAYON_HOME/keys/:/etc/entropy/gpg-keys/"
 	"-v $SABAYON_HOME/artifacts:/usr/portage/packages"
 	"-e FEATURES -e DISTCC_SSH -e DISTCC_HOSTS -e MAKEOPTS -e SSH_AUTH_SOCK"
+	"--cap-add=SYS_PTRACE"
 )
 
 export SABAYON_CPUS

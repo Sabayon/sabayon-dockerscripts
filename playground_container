@@ -14,6 +14,7 @@ SABAYON_DOCKER_OPTIONS=(
 	"-v $SABAYON_HOME/confs/distcc_hosts:/etc/distcc/hosts"
 	"-v $SABAYON_HOME/artifacts:/usr/portage/packages"
 	"--rm -e FEATURES -e DISTCC_SSH -e DISTCC_HOSTS -e MAKEOPTS -e SSH_AUTH_SOCK"
+	"--cap-add=SYS_PTRACE"
 )
 
 export SABAYON_CPUS
